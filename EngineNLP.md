@@ -87,9 +87,7 @@ La Lambda de este motor debe recibir el siguiente JSON. Y la layer que utiliza l
   "text": "cual es la hora de londres"
 }
 ```
-
 como respuesta envía
-
 ```json
 {
   "answer": "Por el momento no cuento con esa información"
