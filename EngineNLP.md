@@ -1,12 +1,17 @@
 # EngineNLP
-Para el funcionamiento del chatbot se requieres de varios motores, cada uno recibe diferentes json. Aquí solo se documenta el proceso de consulta de cada una de los motores que funcionan dentro de lambdas. En cada motor se especifica su funcionamiento y sus requerimientos. Los motores son:
+Para el funcionamiento del chatbot se requiere de varios motores, cada uno recibe diferentes JSON. Aquí solo se documenta el proceso de consulta de cada una de los motores que funcionan dentro de lambdas. En cada motor se especifica su funcionamiento y sus requerimientos. Los motores son:
 * Motor Snips
 * Motor SemanticDistance
 * Motor GoogleSearch
 * Motor EntidadesPLN
 
 ## Motor Snips
-No cuenta con API su invocación debe ser con boto3. Para su funcionamiento en las lambdas es necesario contar con una layer que incluya la libreria **snips-nlu** el siguiente JSON debe ser enviado en la invocación
+No cuenta con API, su invocación debe ser con boto3 y depende de la layer `LayerSnips`, así como también se le debe especificar las siguientes variables de entorno.
+```
+ENTIDADESPLN = "ARN de lambda EntidadesPLN"
+MODEL_BUCKET_NAME = "Nombre del bucket del modelo para snips"
+```
+Para su invocación es necesario enviarle el siguiente JSON:
 
 ```json
 {  
@@ -27,14 +32,14 @@ No cuenta con API su invocación debe ser con boto3. Para su funcionamiento en l
     }
 }
 ```
-
 Referente al uso de entidades seleccionadas, hay 3 modos de usarla.
 * Omitir `toggleEntities` asume todas los valores como "True"
 * Incluir `toggleEntities` pero omitir entidades en específico asume el valor de dichas entidades como "False" (Que no se incluirán en la respuesta de la API)
 * Incluir `toggleEntities` con todas las entidades, pero específicando unas como "True" y otras como "False"
 
-Este motor se divide en dos lambdas una llamada Snips donde se procesa el mensaje para clasificarlo en alguna intencion y entidades pre entrenadas con el Snips-nlu otra nombrada EntidadesPLN donde se encuentran las entidades generadas con modelos propios a esta se le envia la respuesta de Snips-nlu, es decir, un JSON con el siguiente formato
 
+## Motor EntidadesPLN
+Este motor se invoca cuando se hace una peticion al motor de `Snips` el cual de manera automático le manda una petición, debido a que es encargado de identificar entidades, el JSON que recibe es el siguiente
 ```json
 {
   "bot": "grupovanguardia",
@@ -55,12 +60,8 @@ Este motor se divide en dos lambdas una llamada Snips donde se procesa el mensaj
 
 ```
 
-
-## Motor EntidadesPLN
-
-
 ## Motor SemanticDistance
-Esta lambda recibe el nombre de **SemanticDistance** y en su invocación debe llevar el siguiente JSON. Donde *requestText* es el mensaje que se desea medir la distancia y *responseTex* es un vector con los lexemas y sus respectivos pesos.
+Esta lambda en su invocación debe llevar el siguiente JSON. Donde `requestText` es el mensaje que se desea medir la distancia y `responseTex` es un vector con los lexemas y sus respectivos pesos. Tambien depende de una layer que lleva como nombre `LayerDistance`
 
 ```json
 {
@@ -70,7 +71,7 @@ Esta lambda recibe el nombre de **SemanticDistance** y en su invocación debe ll
   ]
 }
 ```
-Como resultado de la medicion se regresa  este JSON. El cual indica la distancia en un valor de 0.0 a 1.0 donde 1.0 es una distancia grande y no son oraciones parecidas
+Como resultado de la medicion se regresa este JSON. El cual indica la distancia en un valor de 0.0 a 1.0 donde 1.0 es una distancia grande y no son oraciones parecidas
 
 ```json
 {
@@ -79,7 +80,7 @@ Como resultado de la medicion se regresa  este JSON. El cual indica la distancia
 ```
 
 ## Motor GoogleSearch
-La Lambda de este motor debe recibir el siguiente JSON.
+La Lambda de este motor debe recibir el siguiente JSON. Y la layer que utiliza lleva como nombre `LayerGoogle`
 
 ```json
 {
@@ -94,4 +95,3 @@ como respuesta envía
   "answer": "Por el momento no cuento con esa información"
 }
 ```
-
