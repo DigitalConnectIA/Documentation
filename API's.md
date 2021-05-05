@@ -92,7 +92,7 @@ La integración de esta ruta está compuesta por la lambda **ConversationService
 cluster_arn_aurora = "ARN del cluster"
 secret_arn_aurora = "aquí Jose Luis"
 ```
-La peticion a esta ruta es por el método **POST** y puede recibir cualquiera de los siguientes JSON.
+La peticion a esta ruta es por el método **POST** y puede recibir cualquiera de los siguientes JSON.  
 Definicion de creacion de una conversacion, ```idClient``` -> referencia al ID de cliente
 ```json
 {
@@ -238,7 +238,7 @@ La integración que tiene esta ruta es con la lambda **UserService**. La configu
 cluster_arn_aurora = "ARN del cluster"
 secret_arn_aurora = "aquí Jose Luis"
 ```
-La peticion a esta ruta es por el método **POST** o **GET** y puede recibir cualquiera de los siguientes JSON
+La peticion a esta ruta es por el método **POST** o **GET** y puede recibir cualquiera de los siguientes JSON  
 Definicion de creacion de usuario, ```email``` -> requerido, ```password``` -> requerido
 ```json
 {
