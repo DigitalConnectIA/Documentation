@@ -21,7 +21,7 @@ Esta ruta tiene la integracion con la lambda llamada **ClientService**. La confi
 cluster_arn_aurora = "ARN del cluster"
 secret_arn_aurora = "aquí Jose Luis"
 ```
-La peticion a esta ruta es por el método **POST** y puede recibir cualquiera de los siguientes JSON
+La peticion a esta ruta es por el método **POST** y puede recibir cualquiera de los siguientes JSON.
 Definicion de creacion del cliente, ```email``` -> requerido
 ```json
 {
