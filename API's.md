@@ -4,59 +4,19 @@ Estas API's son usadas en el Front-End de Amplify, cada una será especificada y
 * socket_chatbot
 
 ## PointAccess
-Esta API es la encargada de generar la conexión de la llamada con el motor del chatbot, consta de 3 rutas **/engine**, **/start** y **/token**
+Esta API es la central y esta compuesta por la siguientes rutas
+* /clients
+* /conversation
+* /convertest
+* /engine
+* /import
+* /start
+* /token
+* /user
+* /{folder}/{item}
 
-### Ruta /engine
-Esta ruta debe recibir la informacion en metodo **GET** y formato ```text/xml``` La lambda controladora de esta ruta se llama **TwilioEngine** esta debe recibir la variable ```event['queryStringParameters']['SpeechResult']``` que es el resultado de la transcripcion de Twilio y ```event['queryStringParameters']['CallSid']``` que es la **sessionID** de la State Machine la cual se manda traer de la misma forma que en la **API Sockets**.
-Mediante la libreria Twilio que utiliza la lambda, la respuesta debe ser un JSON con el siguiente formato
-
-```json
-{
-  "statusCode": 200,
-  "headers": {
-    "Content-Type": "text/xml"
-  },
-  "body": "<?xml version='1.0' encoding='UTF-8'?><Response><Say voice='Polly.Lupe-Neural'>Por el momento no cuento con esa informaci&#243;n</Say><Gather action='https://yshohmubf1.execute-api.us-west-2.amazonaws.com/beta/engine' input='speech' language='es-MX' method='GET' speechTimeout='auto' /></Response>"
-}
-```
-
-### Ruta /start
-Esta ruta debe recibir la peticion en metodo **GET** y formato ```text/xml``` La lambda controladora de esta ruta se llama **TwilioStart** esta no recibe variable y solo ejecuta la respuesta rapida para iniciar una conversación de voz.
-Mediante la libreria Twilio que utiliza la lambda, la respuesta debe ser un XML con el siguiente formato
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<Response>
-  <Say voice='Polly.Lupe-Neural'>Hola</Say>
-  <Gather action='https://yshohmubf1.execute-api.us-west-2.amazonaws.com/beta/engine'
-    input='speech' language='es-MX' method='GET' speechTimeout='auto'>
-</Response>
-```
-
-### Ruta /token
-Esta ruta debe recibir la peticion en metodo **GET** sin datos de envío. La lambda controladora de esta ruta se llama **TwilioToken** esta no recibe variable y solo ejecuta la respuesta que es un token de Twilio para poder generar llamdas desde el Fron-End. Su respuesta es 
-
-```json
-{
-  "body": "token_de_twilio"
-}
-```
-
-### Ruta /convertest
-Es controlada por una lambda llamada **ConversationTests**, consiste en almacenar en una base de datos los mensajes de prueba junto a la evaluación que le da el agente, el JSON que debe recibir es el siguiente.
-
-```json
-{
-  "NameBot": "grupovanguardia",
-  "NewData": {
-    "bot": "hola buen dia hablas a grupo vanguardia",
-    "datetime": "09/12/2021:14:00:00",
-    "type": "vp",
-    "user": "hola"
-}
-```
-
-### Ruta /clients
+### /clients
+Esta ruta tiene la integracion con la lambda llamada ***ClientService***. Por el momento la configuracion de esta lambda solo requiere de 
 Definicion de creacion de cliente, ```email``` -> requerido
 ```json
 {
@@ -120,6 +80,58 @@ Definicion de delete para clientes
     }
 }
 ```
+
+
+### /engine
+Esta ruta debe recibir la informacion en metodo **GET** y formato ```text/xml``` La lambda controladora de esta ruta se llama **TwilioEngine** esta debe recibir la variable ```event['queryStringParameters']['SpeechResult']``` que es el resultado de la transcripcion de Twilio y ```event['queryStringParameters']['CallSid']``` que es la **sessionID** de la State Machine la cual se manda traer de la misma forma que en la **API Sockets**.
+Mediante la libreria Twilio que utiliza la lambda, la respuesta debe ser un JSON con el siguiente formato
+
+```json
+{
+  "statusCode": 200,
+  "headers": {
+    "Content-Type": "text/xml"
+  },
+  "body": "<?xml version='1.0' encoding='UTF-8'?><Response><Say voice='Polly.Lupe-Neural'>Por el momento no cuento con esa informaci&#243;n</Say><Gather action='https://yshohmubf1.execute-api.us-west-2.amazonaws.com/beta/engine' input='speech' language='es-MX' method='GET' speechTimeout='auto' /></Response>"
+}
+```
+
+### /start
+Esta ruta debe recibir la peticion en metodo **GET** y formato ```text/xml``` La lambda controladora de esta ruta se llama **TwilioStart** esta no recibe variable y solo ejecuta la respuesta rapida para iniciar una conversación de voz.
+Mediante la libreria Twilio que utiliza la lambda, la respuesta debe ser un XML con el siguiente formato
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<Response>
+  <Say voice='Polly.Lupe-Neural'>Hola</Say>
+  <Gather action='https://yshohmubf1.execute-api.us-west-2.amazonaws.com/beta/engine'
+    input='speech' language='es-MX' method='GET' speechTimeout='auto'>
+</Response>
+```
+
+### Ruta /token
+Esta ruta debe recibir la peticion en metodo **GET** sin datos de envío. La lambda controladora de esta ruta se llama **TwilioToken** esta no recibe variable y solo ejecuta la respuesta que es un token de Twilio para poder generar llamdas desde el Fron-End. Su respuesta es 
+
+```json
+{
+  "body": "token_de_twilio"
+}
+```
+
+### Ruta /convertest
+Es controlada por una lambda llamada **ConversationTests**, consiste en almacenar en una base de datos los mensajes de prueba junto a la evaluación que le da el agente, el JSON que debe recibir es el siguiente.
+
+```json
+{
+  "NameBot": "grupovanguardia",
+  "NewData": {
+    "bot": "hola buen dia hablas a grupo vanguardia",
+    "datetime": "09/12/2021:14:00:00",
+    "type": "vp",
+    "user": "hola"
+}
+```
+
 
 ### Ruta /conversations
 Definicion de creacion de una conversacion, ```idClient``` -> referencia al ID de cliente
