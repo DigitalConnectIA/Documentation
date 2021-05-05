@@ -16,12 +16,12 @@ Esta API es la central, su configuración en el Template SAM ya incluye la activ
 * /{folder}/{item}
 
 ### /clients
-Esta ruta tiene la integracion con la lambda llamada **ClientService**. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
+Esta ruta tiene la integracion con la lambda llamada `ClientService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
 ```
 cluster_arn_aurora = "ARN del cluster"
 secret_arn_aurora = "aquí Jose Luis"
 ```
-La peticion a esta ruta es por el método **POST** y puede recibir cualquiera de los siguientes JSON.  
+La peticion a esta ruta es por el método `POST` y puede recibir cualquiera de los siguientes JSON.  
 Definicion de creacion del cliente, ```email``` -> requerido
 ```json
 {
@@ -87,12 +87,12 @@ Definicion de delete para clientes
 ```
 
 ### /conversations
-La integración de esta ruta está compuesta por la lambda **ConversationService**. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
+La integración de esta ruta está compuesta por la lambda `ConversationService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
 ```
 cluster_arn_aurora = "ARN del cluster"
 secret_arn_aurora = "aquí Jose Luis"
 ```
-La peticion a esta ruta es por el método **POST** y puede recibir cualquiera de los siguientes JSON.  
+La peticion a esta ruta es por el método `POST` y puede recibir cualquiera de los siguientes JSON.  
 Definicion de creacion de una conversacion, ```idClient``` -> referencia al ID de cliente
 ```json
 {
@@ -156,11 +156,11 @@ Definicion de delete para la conversación
 ```
 
 ### /convertest
-Tienen una integración con la lambda **ConversationTests**, consiste en almacenar en una base de datos los mensajes de prueba junto a la evaluación que le da el agente. Contiene una sola variable de entorno que es:
+Tienen una integración con la lambda `ConversationTests`, consiste en almacenar en una base de datos los mensajes de prueba junto a la evaluación que le da el agente. Contiene una sola variable de entorno que es:
 ```
 DBTableName = "nombre de la tabla DynamoDB"
 ```
-El JSON que recibe mediante el método **POST** es el siguiente.
+El JSON que recibe mediante el método `POST` es el siguiente.
 ```json
 {
   "NameBot": "grupovanguardia",
@@ -173,13 +173,13 @@ El JSON que recibe mediante el método **POST** es el siguiente.
 ```
 
 ### /engine
-Esta ruta tiene la integracion con la lambda **TwilioEngine** la cual depende del layer llamado **LayerTwilio** y contiene las siguientes variables de entorno
+Esta ruta tiene la integracion con la lambda `TwilioEngine` la cual depende del layer llamado `LayerTwilio` y contiene las siguientes variables de entorno
 ```
 ConversationService = "ARN lambda ConversationService"
 MAQUINA_ESTADOS = "ARN State Machine chatbot"
 TWILIO_CONVERSACION = "URL API PointAccess ruta /engine"
 ```
-La ruta recibe la informacion en metodo **GET** y formato ```text/xml``` 
+La ruta recibe la informacion en metodo `GET` y formato ```text/xml``` 
 ```json
 {
   "statusCode": 200,
@@ -191,8 +191,8 @@ La ruta recibe la informacion en metodo **GET** y formato ```text/xml```
 ```
 
 ### /import
-La integración de esta ruta es la lambda **Lex**, esta genera un bot Lex mediante la extracción de un zip en s3 el cual debió importarse previamente en la ruta ```/{folder}/{item}```.
-Su peticion es con el método **POST** y en el body se inserta el nombre del bucket y el archivo que contiene los datos del nuevo bot
+La integración de esta ruta es la lambda `Lex`, esta genera un bot Lex mediante la extracción de un zip en s3 el cual debió importarse previamente en la ruta ```/{folder}/{item}```.
+Su peticion es con el método `POST` y en el body se inserta el nombre del bucket y el archivo que contiene los datos del nuevo bot
 ```json
 {
   "bucket":"datoslex",
@@ -201,11 +201,11 @@ Su peticion es con el método **POST** y en el body se inserta el nombre del buc
 ```
 
 ### /start
-La lambda en la integración de esta ruta se llama **TwilioStart** esta no recibe variable y solo ejecuta la respuesta rapida para iniciar una conversación de voz. Pero si requiere de la layer **LayerTwilio** y de la siguiente variable de entorno
+La lambda en la integración de esta ruta se llama `TwilioStart` esta no recibe variable y solo ejecuta la respuesta rapida para iniciar una conversación de voz. Pero si requiere de la layer `LayerTwilio` y de la siguiente variable de entorno
 ```
 TWILIO_CONVERSACION = "URL API PointAccess ruta /engine"
 ```
-Esta ruta debe recibir la peticion en metodo **GET** y formato ```text/xml``` 
+Esta ruta debe recibir la peticion en metodo `GET` y formato ```text/xml``` 
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
@@ -217,7 +217,7 @@ Esta ruta debe recibir la peticion en metodo **GET** y formato ```text/xml```
 ```
 
 ### /token
-La lambda en la integración de esta ruta se llama **TwilioToken** esta no recibe variable y solo ejecuta la respuesta que es un token de Twilio para poder generar llamdas desde el Fron-End. Requiere de la layer **LayerTwilio** y de la siguientes variables de entorno
+La lambda en la integración de esta ruta se llama `TwilioToken` esta no recibe variable y solo ejecuta la respuesta que es un token de Twilio para poder generar llamdas desde el Fron-End. Requiere de la layer `LayerTwilio` y de la siguientes variables de entorno
 ```
 TWILIO_ACCOUNT_SID = "Lo da Twilio al crear cuenta"
 TWILIO_AUTH_TOKEN = "Lo da Twilio al crear cuenta"
@@ -233,12 +233,12 @@ Su respuesta es
 
 
 ### /user
-La integración que tiene esta ruta es con la lambda **UserService**. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
+La integración que tiene esta ruta es con la lambda `UserService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
 ```
 cluster_arn_aurora = "ARN del cluster"
 secret_arn_aurora = "aquí Jose Luis"
 ```
-La peticion a esta ruta es por el método **POST** o **GET** y puede recibir cualquiera de los siguientes JSON  
+La peticion a esta ruta es por el método `POST` o `GET` y puede recibir cualquiera de los siguientes JSON  
 Definicion de creacion de usuario, ```email``` -> requerido, ```password``` -> requerido
 ```json
 {
@@ -307,16 +307,16 @@ Definicion de delete para usuarios
 ```
 
 ### /{folder}/{item}
-La integración de esta ruta es con el servicio de **s3** y se encarga de realizar el almacenamiento de un archivo dentro de un bucket ya existente. Su método es **PUT** y el body donde va el archivo debe ser ```application/octet-stream``` un ejemplo de ruta es ```https://17ralen7pg.execute-api.us-west-2.amazonaws.com/dev/datoslex/lex.zip``` donde ```datoslex``` es el nombre del bucket existente y ```lex.zip``` es el nombre con el que se guardar el archivo en el body de la petición
+La integración de esta ruta es con el servicio de `s3` y se encarga de realizar el almacenamiento de un archivo dentro de un bucket ya existente. Su método es `PUT` y el body donde va el archivo debe ser ```application/octet-stream``` un ejemplo de ruta es ```https://17ralen7pg.execute-api.us-west-2.amazonaws.com/dev/datoslex/lex.zip``` donde ```datoslex``` es el nombre del bucket existente y ```lex.zip``` es el nombre con el que se guardar el archivo en el body de la petición
 
 ## socket_chatbot
-Esta API consta de tres rutas **$connect**, **$disconnect** y **mensaje**. Cada una cuenta con su respectiva lambda con los siguientes nombres **SocketConnect**, **SocketDisconnect** y **SocketMensaje**
+Esta API consta de tres rutas `$connect`, `$disconnect` y `mensaje`. Cada una cuenta con su respectiva lambda con los siguientes nombres `SocketConnect`, `SocketDisconnect` y `SocketMensaje`
 
 ### SocketConnect
 El dato importante de entrada para esta lambda es el ID de conexión este viene dentro de la siguiente variable ```event['requestContext']['connectionId']```. Este dato debe ser enviado a la base de datos para identificar una nueva conexión y por lo tanto una nueva conversación, así que como configuración de la lambda tiene la siguiente variable de entorno ```ConversationService = ARN de la lambda ConversationService```
 
 ### SocketMensaje
-Esta lambda es la encargada de procesar los datos de un socket cuando ya está conectado. El JSON que se debe enviar a la ruta **mensaje** es el siguiente
+Esta lambda es la encargada de procesar los datos de un socket cuando ya está conectado. El JSON que se debe enviar a la ruta `mensaje` es el siguiente
 
 ```json
 {"action": "mensaje", "datos":"hola"}
@@ -334,7 +334,7 @@ sf_respuesta = sf.start_sync_execution(
 sf_data_output=json.loads(sf_respuesta['output'])
 print("Result SF ",sf_data_output)
 ```
-Como los socket no tienen **return** para poder regresar la respuesta de la State Machine se genera el siguiente codigo
+Como los socket no tienen `return` para poder regresar la respuesta de la State Machine se genera el siguiente codigo
 ```python
 import boto3, os
 api_gateway = boto3.client('apigatewaymanagementapi',endpoint_url = "https://" + event["requestContext"]["domainName"] + "/" + event["requestContext"]["stage"])
@@ -346,4 +346,4 @@ api_gateway.post_to_connection(
 De esta forma aseguramos regresar el mensaje al mismo socket que hizo la petición
 
 ### SocketDisconnect
-Esta lambda responde a la ruta **$disconnect**, por el momento no se tiene ninguna funcionalidad solo genera la desconexion segura de un socket (lambda vacía)
+Esta lambda responde a la ruta `$disconnect`, por el momento no se tiene ninguna funcionalidad solo genera la desconexion segura de un socket (lambda vacía)
