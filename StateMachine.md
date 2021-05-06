@@ -8,6 +8,9 @@ El json de salida de la StateMachine es el siguiente, este formato es importante
 ```json
 {"respuesta": "hola", "sessionID": "di3Jae7vvHcCFfA=", "intent": "saludo"}
 ```
+Gráficamente el funcionamiento de la StateMachine queda como se muestra en la siguiente figura.  
+  
+![Arquitectura AWS](https://referencias-documentacion.s3-us-west-2.amazonaws.com/StepFunction.jpg)
 
 ## Definición de State Machine
 La estructura definida para la State Machine es el siguiente JSON. En este mismo se muestra que las entras y salidas de cada paso son las definidas dentro de las lambdas 
