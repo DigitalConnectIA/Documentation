@@ -1,9 +1,9 @@
 # Layers
 En este apartado se documenta todos los layer necesarios hasta el momento. Todos trabajan bajo la version de `python 3.8`
-* LayerSnips
-* LayerDistance
-* LayerGoogle
-* LayerTwilio
+* **LayerSnips**
+* **LayerDistance**
+* **LayerGoogle**
+* **LayerTwilio**
 
 ## LayerSnips
 Su lista de librerias son las siguientes
