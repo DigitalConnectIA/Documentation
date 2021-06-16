@@ -13,6 +13,7 @@ Esta API es la central, su configuración en el Template SAM ya incluye la activ
 * /start
 * /token
 * /user
+* /reports
 * /{folder}/{item}
 
 ### /clients
@@ -301,6 +302,97 @@ Definicion de delete para usuarios
     "payload": {
         "Item": {
             "email": "jlpalillero@digitialconnect.com.mx"
+        }
+    }
+}
+```
+
+### /reports
+La integración que tiene esta ruta es con la lambda `ReportsService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
+```
+cluster_arn_aurora = "ARN del cluster"
+secret_arn_aurora = "aquí Jose Luis"
+```
+La peticion a esta ruta es por el método `POST` y puede recibir cualquiera de los siguientes JSON  
+Definicion de creacion de reporte, todos los campos son requeridos
+```json
+{
+    "operation": "create",
+    "payload": {
+        "Item": {
+            "agent": "Jose Luis",
+            "comment": "No le han llamado para su cotizacion",
+            "priorityAttention": true,
+            "processStatus": "pendiente"
+        }
+    }
+}
+```
+Definicion de fullGet para extraer todos los reportes
+```json
+{
+    "operation": "fullGet",
+    "payload": {
+        "Item": {}
+    }
+}
+```
+Definicion de la obtencion de reportes por rango de fechas. Fechas requeridas
+```json
+{
+    "operation": "getReportByDate",
+    "payload": {
+        "Item": {
+            "dateStart": "2021-06-15 00:00:00",
+            "dateEnd": "2021-06-15 23:59:59"
+        }
+    }
+}
+```
+Definicion de la obtencion de reportes por status del reporte
+```json
+{
+    "operation": "getReportByStatus",
+    "payload": {
+        "Item": {
+            "status": "activo"
+        }
+    }
+}
+```
+Definicion de la obtencion de reportes por agente
+```json
+{
+    "operation": "getReportByAgent",
+    "payload": {
+        "Item": {
+            "agent": "activo"
+        }
+    }
+}
+```
+Definicion para la actualiacion del reporte. reportId requerido
+```json
+{
+  "operation": "update",
+  "payload": {
+      "Item": {
+          "reportId": "85cdc38ade",
+          "agent": "sandoval",
+          "comment": "No le han llamado para su cotizacion. Llamada realizada",
+          "priorityAttention": true,
+          "processStatus": "solucionado"
+      }
+  }
+}
+```
+Definicion para eliminar el reporte. reportId requerido
+```json
+{
+    "operation": "delete",
+    "payload": {
+        "Item": {
+            "reportId": "85cdc38ade"
         }
     }
 }
