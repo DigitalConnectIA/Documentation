@@ -1,11 +1,11 @@
-# Creación de Aurora serverless
+# Creación de tablas en Aurora serverless
 
-Para la creación de auroraserverless se establece con los siguientes DDL's
+Para la creación de las tablas en auroraserverless se establece con los siguientes DDL's
 
 ```sql
 
-drop table chatbot.Users;
-CREATE TABLE IF NOT EXISTS chatbot.Users (
+drop table DBName.Users;
+CREATE TABLE IF NOT EXISTS DBName.Users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS chatbot.Users (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-drop table chatbot.Clients;
-CREATE TABLE IF NOT EXISTS chatbot.Clients (
+drop table DBName.Clients;
+CREATE TABLE IF NOT EXISTS DBName.Clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS chatbot.Clients (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-drop table chatbot.Conversations;
-CREATE TABLE IF NOT EXISTS chatbot.Conversations (
+drop table DBName.Conversations;
+CREATE TABLE IF NOT EXISTS DBName.Conversations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sessionId VARCHAR(255) NULL,
     userMessage text NULL,
@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS chatbot.Conversations (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-drop table chatbot.Reports;
-CREATE TABLE IF NOT EXISTS chatbot.Reports (
+drop table DBName.Reports;
+CREATE TABLE IF NOT EXISTS DBName.Reports (
     id INT AUTO_INCREMENT PRIMARY KEY,
     reportId VARCHAR(255) NOT NULL,
     agent VARCHAR(255) NOT NULL,
