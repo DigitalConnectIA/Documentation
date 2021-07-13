@@ -55,4 +55,8 @@ CREATE TABLE IF NOT EXISTS DBName.Reports (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-```
+```  
+
+Diagrama Entidad-Relacion  
+
+![DiagramaER](https://referencias-documentacion-md.s3.us-west-2.amazonaws.com/DiagramaER.jpg)  
