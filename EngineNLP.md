@@ -37,6 +37,20 @@ Referente al uso de entidades seleccionadas, hay 3 modos de usarla.
 * Incluir `toggleEntities` pero omitir entidades en específico asume el valor de dichas entidades como "False" (Que no se incluirán en la respuesta de la API)
 * Incluir `toggleEntities` con todas las entidades, pero específicando unas como "True" y otras como "False"
 
+Respuesta:
+```json
+{
+  "statusCode": 200,
+  "body": {
+    "input": "tienes vacantes",
+    "intent": {
+      "intentName": "sindato",
+      "probability": 0.2696685356480976
+    },
+    "slots": []
+  }
+}
+```
 
 ## Motor EntidadesPLN
 Este motor se invoca cuando se hace una peticion al motor de `Snips` el cual de manera automático le manda una petición, debido a que es encargado de identificar entidades, el JSON que recibe es el siguiente
