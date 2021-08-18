@@ -57,6 +57,20 @@ CREATE TABLE IF NOT EXISTS DBName.Reports (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+drop table DBName.Roles;
+CREATE TABLE IF NOT EXISTS DBName.Roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Rolname VARCHAR(255) NOT NULL,
+    Dashboard boolean NULL,
+    Chat boolean NULL,
+    Reportes boolean NULL,
+    Respuestas boolean NULL,
+    MiCuenta boolean NULL,
+    RecuperarPsswrd boolean NULL,
+    Consultar boolean NULL,
+    Nuevo boolean NULL
+);
+
 ```  
 
 Diagrama Entidad-Relacion  
