@@ -16,7 +16,15 @@ CREATE TABLE IF NOT EXISTS DBName.Users (
     lastState VARCHAR(255) NULL,
     position VARCHAR(255) NULL,
   	updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Dashboard boolean NULL,
+    Chat boolean NULL,
+    Reportes boolean NULL,
+    Respuestas boolean NULL,
+    MiCuenta boolean NULL,
+    RecuperarPsswrd boolean NULL,
+    Consultar boolean NULL,
+    Nuevo boolean NULL
 );
 
 drop table DBName.Clients;
@@ -55,20 +63,6 @@ CREATE TABLE IF NOT EXISTS DBName.Reports (
     processStatus VARCHAR(255) NOT NULL,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-drop table DBName.Roles;
-CREATE TABLE IF NOT EXISTS DBName.Roles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Rolname VARCHAR(255) NOT NULL,
-    Dashboard boolean NULL,
-    Chat boolean NULL,
-    Reportes boolean NULL,
-    Respuestas boolean NULL,
-    MiCuenta boolean NULL,
-    RecuperarPsswrd boolean NULL,
-    Consultar boolean NULL,
-    Nuevo boolean NULL
 );
 
 ```  
