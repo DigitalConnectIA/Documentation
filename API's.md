@@ -527,6 +527,15 @@ Para obtener usuarios por estado:
     }
 }
 ```
+Para obtener todos los usuarios:
+```json
+{
+    "operation": "fullGet",
+    "payload": {
+        "Item":{}
+    }
+}
+```
 
 ### /{folder}/{item}
 La integración de esta ruta es con el servicio de `s3` y se encarga de realizar el almacenamiento de un archivo dentro de un bucket ya existente. Su método es `PUT` y el body donde va el archivo debe ser ```application/octet-stream``` un ejemplo de ruta es ```https://17ralen7pg.execute-api.us-west-2.amazonaws.com/dev/datoslex/lex.zip``` donde ```datoslex``` es el nombre del bucket existente y ```lex.zip``` es el nombre con el que se guardar el archivo en el body de la petición
