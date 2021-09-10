@@ -10,10 +10,13 @@ Esta API es la central, su configuración en el Template SAM ya incluye la activ
 * /convertest
 * /engine
 * /import
+* /metrics
+* /reports
+* /SemanticDistanceTrainer
+* /SnipsTrainer
 * /start
 * /token
 * /user
-* /reports
 * /{folder}/{item}
 
 ### /clients
@@ -201,108 +204,34 @@ Su peticion es con el método `POST` y en el body se inserta el nombre del bucke
 }
 ```
 
-### /start
-La lambda en la integración de esta ruta se llama `TwilioStart` esta no recibe variable y solo ejecuta la respuesta rapida para iniciar una conversación de voz. Pero si requiere de la layer `LayerTwilio` y de la siguiente variable de entorno
-```
-TWILIO_CONVERSACION = "URL API PointAccess ruta /engine"
-```
-Esta ruta debe recibir la peticion en metodo `GET` y formato ```text/xml``` 
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<Response>
-  <Say voice='Polly.Lupe-Neural'>Hola</Say>
-  <Gather action='https://yshohmubf1.execute-api.us-west-2.amazonaws.com/beta/engine'
-    input='speech' language='es-MX' method='GET' speechTimeout='auto'>
-</Response>
-```
-
-### /token
-La lambda en la integración de esta ruta se llama `TwilioToken` esta no recibe variable y solo ejecuta la respuesta que es un token de Twilio para poder generar llamdas desde el Fron-End. Requiere de la layer `LayerTwilio` y de la siguientes variables de entorno
-```
-TWILIO_ACCOUNT_SID = "Lo da Twilio al crear cuenta"
-TWILIO_AUTH_TOKEN = "Lo da Twilio al crear cuenta"
-TWILIO_TWIML_APP_SID = "Lo da Twilio al crear cuenta y una app"
-```
-Su respuesta es 
-
+### /metrics
+Esta ruta devuelve las metricas para mostrar al front y sus json son los siguientes
 ```json
 {
-  "body": "token_de_twilio"
-}
-```
-
-
-### /user
-La integración que tiene esta ruta es con la lambda `UserService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
-```
-cluster_arn_aurora = "ARN del cluster"
-secret_arn_aurora = "aquí Jose Luis"
-```
-La peticion a esta ruta es por el método `POST` o `GET` y puede recibir cualquiera de los siguientes JSON  
-Definicion de creacion de usuario, ```email``` -> requerido, ```password``` -> requerido
-```json
-{
-    "operation": "create",
+    "operation": "getCounterQuestionsByConversationAndDates",
     "payload": {
         "Item": {
-            "name": "Jose Luis",
-            "lastName": "Palillero Huerta",
-            "email": "jlpalillero1@digitialconnect.com.mx",
-            "phone": "+5222233232223",
-            "rol": "portal",
-            "password": "1234"
+            "dateStart": "2021-05-01 00:00:00",
+            "dateEnd": "2021-05-31 00:00:00"
         }
     }
 }
 ```
-Definicion de getItem para los usuarios, ```email``` -> requerido
+otra peticion:
 ```json
 {
-    "operation": "getItem",
+    "operation": "getUsersToday",
     "payload": {
-        "Item": {
-            "email": "jlpalillero1@digitialconnect.com.mx"
-        }
+        "Item": {}
     }
 }
 ```
-Definicion de login para usuarios
+Otra peticion: 
 ```json
 {
-    "operation": "login",
+    "operation": "getAllUsersToday",
     "payload": {
-        "Item": {
-            "email": "jlpalillero1@digitialconnect.com.mx",
-            "password": "1234"
-        }
-    }
-} 
-```
-Definicion de update para usuarios
-```json
-{
-    "operation": "update",
-    "payload": {
-        "Item": {
-          "id": 1,
-          "email": "jlpalillero@digitialconnect.com.mx",
-          "lastName": "Palillero Huerta",
-          "name": "Jose Luis",
-          "phone": "+5222233232223",
-          "rol": "portal"
-        }
-    }
-}
-```
-Definicion de delete para usuarios
-```json
-{
-    "operation": "delete",
-    "payload": {
-        "Item": {
-            "email": "jlpalillero@digitialconnect.com.mx"
-        }
+        "Item": {}
     }
 }
 ```
@@ -393,6 +322,207 @@ Definicion para eliminar el reporte. reportId requerido
     "payload": {
         "Item": {
             "reportId": "85cdc38ade"
+        }
+    }
+}
+```
+
+### /SemanticDistanceTrainer
+Son peticiones mediante post con los siguientes json disponibles:
+```json
+{
+    "operation": "get",
+    "payload": {}
+}
+```
+El siguiente json agrega lexemas a una intent:
+```json
+{
+    "operation": "add",
+    "payload": {
+        "intent": "ventas",
+        "lexemas": "trabajo vacante empleo"
+    }
+}
+```
+
+### /SnipsTrainer
+El siguiente json selecciona el nombre del motor snips que desea reentrenar:
+```json
+{
+    "bot": "grupovanguardia"
+}
+```
+
+### /start
+La lambda en la integración de esta ruta se llama `TwilioStart` esta no recibe variable y solo ejecuta la respuesta rapida para iniciar una conversación de voz. Pero si requiere de la layer `LayerTwilio` y de la siguiente variable de entorno
+```
+TWILIO_CONVERSACION = "URL API PointAccess ruta /engine"
+```
+Esta ruta debe recibir la peticion en metodo `GET` y formato ```text/xml``` 
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<Response>
+  <Say voice='Polly.Lupe-Neural'>Hola</Say>
+  <Gather action='https://yshohmubf1.execute-api.us-west-2.amazonaws.com/beta/engine'
+    input='speech' language='es-MX' method='GET' speechTimeout='auto'>
+</Response>
+```
+
+### /token
+La lambda en la integración de esta ruta se llama `TwilioToken` esta no recibe variable y solo ejecuta la respuesta que es un token de Twilio para poder generar llamdas desde el Fron-End. Requiere de la layer `LayerTwilio` y de la siguientes variables de entorno
+```
+TWILIO_ACCOUNT_SID = "Lo da Twilio al crear cuenta"
+TWILIO_AUTH_TOKEN = "Lo da Twilio al crear cuenta"
+TWILIO_TWIML_APP_SID = "Lo da Twilio al crear cuenta y una app"
+```
+Su respuesta es 
+
+```json
+{
+  "body": "token_de_twilio"
+}
+```
+
+
+### /user
+La integración que tiene esta ruta es con la lambda `UserService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
+```
+cluster_arn_aurora = "ARN del cluster"
+secret_arn_aurora = "aquí Jose Luis"
+```
+La peticion a esta ruta es por el método `POST` o `GET` y puede recibir cualquiera de los siguientes JSON  
+Definicion de creacion de usuario, ```email``` -> requerido, ```password``` -> requerido
+```json
+{
+    "operation": "create",
+    "payload": {
+        "Item": {
+            "name": "Jose Luis",
+            "lastName": "Palillero Huerta",
+            "email": "test@digitialconnect.com.mx",
+            "phone": "1234567890",
+            "rol": "soporte",
+            "lastState": "activo",
+            "position": "asesor",
+            "password": "1234",
+            "Dashboard": false,
+            "Chat": false,
+            "Reportes": false,
+            "Respuestas": false,
+            "MiCuenta": false,
+            "RecuperarPsswrd": false,
+            "Consultar": false,
+            "Nuevo": false
+        }
+    }
+}
+```
+Definicion de getItem para los usuarios, ```email``` -> requerido
+```json
+{
+    "operation": "get",
+    "payload": {
+        "Item": {
+            "email": "jlpalillero1@digitialconnect.com.mx"
+        }
+    }
+}
+```
+Definicion de login para usuarios
+```json
+{
+    "operation": "login",
+    "payload": {
+        "Item": {
+            "email": "jlpalillero1@digitialconnect.com.mx",
+            "password": "1234"
+        }
+    }
+} 
+```
+Definicion de update para usuarios
+```json
+{
+    "operation": "update",
+    "payload": {
+        "Item": {
+            "id": 13,
+            "email": "test@digitialconnect.com.mx",
+            "lastName": "Palillero Huerta",
+            "name": "Jose Luis",
+            "phone": "0987654321",
+            "rol": "portal",
+            "lastState": "activo",
+            "position": "asesor",
+            "password":"81dc9bdb52d04dc20036dbd8313ed055",
+            "Dashboard": false,
+            "Chat": false,
+            "Respuestas": true,
+            "Reportes": false,
+            "MiCuenta": false,
+            "RecuperarPsswrd": false,
+            "Consultar": false,
+            "Nuevo": false
+        }
+    }
+}
+```
+Definicion de delete para usuarios
+```json
+{
+    "operation": "delete",
+    "payload": {
+        "Item": {
+            "email": "jlpalillero@digitialconnect.com.mx"
+        }
+    }
+}
+```
+Para recuperar contraseña
+```json
+{
+    "operation": "recoverPasswd",
+    "payload": {
+        "Item": {
+            "email": "jlpalillero@digitialconnect.com.mx",
+            "phone": "7772221122",
+            "password": "nuevoPASSWD"
+        }
+    }
+}
+```
+Para obtener usuarios por rol:
+```json
+{
+    "operation": "getUsersByRol",
+    "payload": {
+        "Item": {
+            "rol": "servicio"
+        }
+    }
+}
+```
+Para obtener usuarios por nombre y apellido:
+```json
+{
+    "operation": "getByNameLast",
+    "payload": {
+        "Item": {
+            "name": "juan",
+            "lastName": "sandoval"
+        }
+    }
+}
+```
+Para obtener usuarios por estado:
+```json
+{
+    "operation": "getUsersByState",
+    "payload": {
+        "Item": {
+            "lastState": "alta"
         }
     }
 }
