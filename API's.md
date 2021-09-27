@@ -486,9 +486,7 @@ Para recuperar contraseña
     "operation": "recoverPasswd",
     "payload": {
         "Item": {
-            "email": "jlpalillero@digitialconnect.com.mx",
-            "phone": "7772221122",
-            "password": "nuevoPASSWD"
+            "email": "juan.sandoval@digitalconnect.com.mx"
         }
     }
 }
