@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS DBName.Users (
     MiCuenta boolean NULL,
     RecuperarPsswrd boolean NULL,
     Consultar boolean NULL,
-    Nuevo boolean NULL
+    Nuevo boolean NULL,
+    sessionId VARCHAR(255) NULL
 );
 
 drop table DBName.Clients;
@@ -50,7 +51,8 @@ CREATE TABLE IF NOT EXISTS DBName.Conversations (
     startConversation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     endConversation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    agent VARCHAR(255) NULL
 );
 
 drop table DBName.Reports;
