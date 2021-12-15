@@ -67,6 +67,14 @@ CREATE TABLE IF NOT EXISTS DBName.Reports (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+drop table DBName.Historic;
+CREATE TABLE IF NOT EXISTS DBName.Historic (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sessionId VARCHAR(255) NOT NULL,
+    mensaje VARCHAR(255) NULL,
+    tipo VARCHAR(255) NOT NULL,
+    registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```  
 
 Diagrama Entidad-Relacion  
