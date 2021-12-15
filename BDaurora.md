@@ -43,11 +43,9 @@ drop table DBName.Conversations;
 CREATE TABLE IF NOT EXISTS DBName.Conversations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sessionId VARCHAR(255) NULL,
-    userMessage text NULL,
     lastState VARCHAR(255) NULL,
     intent VARCHAR(255) NULL,
     lastQuestion int(11) NULL,
-    botMessage text NULL,
     startConversation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     endConversation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -71,7 +69,7 @@ drop table DBName.Historic;
 CREATE TABLE IF NOT EXISTS DBName.Historic (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sessionId VARCHAR(255) NOT NULL,
-    mensaje VARCHAR(255) NULL,
+    mensaje text NULL,
     tipo VARCHAR(255) NOT NULL,
     registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
