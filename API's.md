@@ -6,16 +6,13 @@ Estas API's son usadas en el Front-End de Amplify, cada una será especificada y
 ## PointAccess
 Esta API es la central, su configuración en el Template SAM ya incluye la activación de cors y el método de respuesta de cada una de las siguientes rutas.
 * /clients
-* /conversation
 * /convertest
 * /engine
-* /import
 * /metrics
 * /reports
-* /SemanticDistanceTrainer
-* /SnipsTrainer
 * /start
 * /token
+* /trainerbot
 * /user
 * /{folder}/{item}
 
@@ -90,74 +87,6 @@ Definicion de delete para clientes
 }
 ```
 
-### /conversations
-La integración de esta ruta está compuesta por la lambda `ConversationService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
-```
-cluster_arn_aurora = "ARN del cluster"
-secret_arn_aurora = "aquí Jose Luis"
-```
-La peticion a esta ruta es por el método `POST` y puede recibir cualquiera de los siguientes JSON.  
-Definicion de creacion de una conversacion, ```idClient``` -> referencia al ID de cliente
-```json
-{
-    "operation": "create",
-    "payload": {
-        "Item": {
-          "transcription": {
-            "messageIn": "data",
-            ...
-          },
-          "states": {},
-          "idClient": null, 
-          "intent": null,
-          "lastState": null,
-          "lasQuestion": null,
-        }
-    }
-}
-```
-Definicion de getItem para la conversacion
-```json
-{
-    "operation": "getItem",
-    "payload": {
-        "Item": {
-            "sessionId": "cb00463f-7166-11eb-9998-c727838c173"
-        }
-    }
-}
-```
-Definicion de update para la conversacion, ```sessionId``` -> requerido, ```idClient``` -> referencia al ID del cliente
-```json
-{
-    "operation": "update",
-    "payload": {
-        "Item": {
-          "sessionId": "cb00463f-7166-11eb-9998-c727838c1732",
-          "transcription": {
-            "messageIn": "data",
-            ...
-          },
-          "states": {},
-          "idClient": null,
-          "intent": null,
-          "lastState": null,
-          "lasQuestion": null,
-        }
-    }
-}
-```
-Definicion de delete para la conversación
-```json
-{
-    "operation": "delete",
-    "payload": {
-        "Item": {
-            "sessionId": "cb00463f-7166-11eb-9998-c727838c173"
-        }
-    }
-}
-```
 
 ### /convertest
 Tienen una integración con la lambda `ConversationTests`, consiste en almacenar en una base de datos los mensajes de prueba junto a la evaluación que le da el agente. Contiene una sola variable de entorno que es:
@@ -194,15 +123,6 @@ La ruta recibe la informacion en metodo `GET` y formato ```text/xml```
 }
 ```
 
-### /import
-La integración de esta ruta es la lambda `Lex`, esta genera un bot Lex mediante la extracción de un zip en s3 el cual debió importarse previamente en la ruta ```/{folder}/{item}```.
-Su peticion es con el método `POST` y en el body se inserta el nombre del bucket y el archivo que contiene los datos del nuevo bot
-```json
-{
-  "bucket":"datoslex",
-  "zip":"grupovanguardiaLex.zip"
-}
-```
 
 ### /metrics
 Esta ruta devuelve las metricas para mostrar al front y sus json son los siguientes
@@ -327,33 +247,6 @@ Definicion para eliminar el reporte. reportId requerido
 }
 ```
 
-### /SemanticDistanceTrainer
-Son peticiones mediante post con los siguientes json disponibles:
-```json
-{
-    "operation": "get",
-    "payload": {}
-}
-```
-El siguiente json agrega lexemas a una intent:
-```json
-{
-    "operation": "add",
-    "payload": {
-        "intent": "ventas",
-        "lexemas": "trabajo vacante empleo"
-    }
-}
-```
-
-### /SnipsTrainer
-El siguiente json selecciona el nombre del motor snips que desea reentrenar:
-```json
-{
-    "bot": "grupovanguardia"
-}
-```
-
 ### /start
 La lambda en la integración de esta ruta se llama `TwilioStart` esta no recibe variable y solo ejecuta la respuesta rapida para iniciar una conversación de voz. Pero si requiere de la layer `LayerTwilio` y de la siguiente variable de entorno
 ```
@@ -385,6 +278,48 @@ Su respuesta es
 }
 ```
 
+
+### /trainerbot
+Esta es la api que muestra los datos de entrenamiento y tambien recibe nuevos datos para re entrenar los motores, el json para obtener los datos es el siguiente:  
+```json
+{
+    "operation": "getData",
+    "payload": {}
+}
+```
+Es indispensable que no falte ningun campo a pesar de de ir vacio. Para re entrenar el motor se requiere del siguiente json:  
+```json
+{
+    "operation":"trainer",
+    "payload":{
+        "intent": [
+            {
+                "name": "despedida",
+                "slots": [
+                    "credito"
+                ],
+                "examples": [
+                    "hasta luego espero su llamada para el [credito](prestamo)",
+                    "hasta luego espero su correo"
+                ],
+                "response": "Un placer atenderte",
+                "lexemas": []
+            }
+        ],
+        "entity": [
+            {
+                "name":"credito",
+                "values":[
+                    "prestamo",
+                    "interes",
+                    "cat"
+                ]
+            }
+        ]
+    }
+}
+```
+Para que el entrenamiento sea correcto se debe respetar la sintaxis de payload y de las entity dentro de los examples y slots
 
 ### /user
 La integración que tiene esta ruta es con la lambda `UserService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
