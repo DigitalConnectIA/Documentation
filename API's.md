@@ -6,7 +6,6 @@ Estas API's son usadas en el Front-End de Amplify, cada una será especificada y
 ## PointAccess
 Esta API es la central, su configuración en el Template SAM ya incluye la activación de cors y el método de respuesta de cada una de las siguientes rutas.
 * /clients
-* /convertest
 * /engine
 * /metrics
 * /reports
@@ -40,7 +39,7 @@ Definicion de creacion del cliente, ```email``` -> requerido
 Definicion de getItem para los clientes, ```email``` -> requerido
 ```json
 {
-    "operation": "getItem",
+    "operation": "get",
     "payload": {
         "Item": {
             "email": "jlpalillero1@digitialconnect.com.mx"
@@ -69,8 +68,7 @@ Definicion de update para clientes
           "email": "jlpalillero@digitialconnect.com.mx",
           "lastName": "Palillero Huerta",
           "name": "Jose Luis",
-          "phone": "+5222233232223",
-          "rol": "portal"
+          "phone": "5222233232",
         }
     }
 }
@@ -81,29 +79,13 @@ Definicion de delete para clientes
     "operation": "delete",
     "payload": {
         "Item": {
+            "id": 1,
             "email": "jlpalillero@digitialconnect.com.mx"
         }
     }
 }
 ```
 
-
-### /convertest
-Tienen una integración con la lambda `ConversationTests`, consiste en almacenar en una base de datos los mensajes de prueba junto a la evaluación que le da el agente. Contiene una sola variable de entorno que es:
-```
-DBTableName = "nombre de la tabla DynamoDB"
-```
-El JSON que recibe mediante el método `POST` es el siguiente.
-```json
-{
-  "NameBot": "grupovanguardia",
-  "NewData": {
-    "bot": "hola buen dia hablas a grupo vanguardia",
-    "datetime": "09/12/2021:14:00:00",
-    "type": "vp",
-    "user": "hola"
-}
-```
 
 ### /engine
 Esta ruta tiene la integracion con la lambda `TwilioEngine` la cual depende del layer llamado `LayerTwilio` y contiene las siguientes variables de entorno
@@ -126,18 +108,7 @@ La ruta recibe la informacion en metodo `GET` y formato ```text/xml```
 
 ### /metrics
 Esta ruta devuelve las metricas para mostrar al front y sus json son los siguientes
-```json
-{
-    "operation": "getCounterQuestionsByConversationAndDates",
-    "payload": {
-        "Item": {
-            "dateStart": "2021-05-01 00:00:00",
-            "dateEnd": "2021-05-31 00:00:00"
-        }
-    }
-}
-```
-otra peticion:
+Peticion de calculo por dia:
 ```json
 {
     "operation": "getUsersToday",
@@ -146,10 +117,28 @@ otra peticion:
     }
 }
 ```
-Otra peticion: 
+Peticion de calculo por hora: 
 ```json
 {
     "operation": "getAllUsersToday",
+    "payload": {
+        "Item": {}
+    }
+}
+```
+Peticion de calculo por semana: 
+```json
+{
+    "operation": "getUserWeekly",
+    "payload": {
+        "Item": {}
+    }
+}
+```
+Peticion de calculo por mes: 
+```json
+{
+    "operation": "getUserMonthly",
     "payload": {
         "Item": {}
     }
