@@ -338,7 +338,8 @@ Definicion de creacion de usuario, ```email``` -> requerido, ```password``` -> r
             "MiCuenta": false,
             "RecuperarPsswrd": false,
             "Consultar": false,
-            "Nuevo": false
+            "Nuevo": false,
+            "sessionId": ""
         }
     }
 }
