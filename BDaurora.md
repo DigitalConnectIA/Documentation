@@ -3,78 +3,58 @@
 Para la creación de las tablas en auroraserverless se establece con los siguientes DDL's
 
 ```sql
-
-drop table DBName.Users;
-CREATE TABLE IF NOT EXISTS DBName.Users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    lastName VARCHAR(255) NOT NULL,
-    phone VARCHAR(30) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    rol VARCHAR(10) NULL,
-    lastState VARCHAR(255) NULL,
-    position VARCHAR(255) NULL,
-  	updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Dashboard boolean NULL,
-    Chat boolean NULL,
-    Reportes boolean NULL,
-    Respuestas boolean NULL,
-    MiCuenta boolean NULL,
-    RecuperarPsswrd boolean NULL,
-    Consultar boolean NULL,
-    Nuevo boolean NULL,
-    sessionId VARCHAR(255) NULL
+CREATE TABLE IF NOT EXISTS Agents ( 
+    id int(11) NOT NULL AUTO_INCREMENT,
+    email varchar(255) NOT NULL,
+    name varchar(255) NOT NULL,
+    lastName varchar(255) NOT NULL,
+    phone varchar(30) NOT NULL,
+    password varchar(255) NOT NULL,
+    rol varchar(10) DEFAULT NULL,
+    lastState varchar(255) DEFAULT NULL,
+    position varchar(255) DEFAULT NULL,
+    updated timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    created timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    Dashboard tinyint(1) DEFAULT NULL,
+    Chat tinyint(1) DEFAULT NULL,
+    Reportes tinyint(1) DEFAULT NULL,
+    Respuestas tinyint(1) DEFAULT NULL,
+    MiCuenta tinyint(1) DEFAULT NULL,
+    RecuperarPsswrd tinyint(1) DEFAULT NULL,
+    Consultar tinyint(1) DEFAULT NULL,
+    Nuevo tinyint(1) DEFAULT NULL,
+    sessionId varchar(255) DEFAULT NULL,
+    sessionUser varchar(255) DEFAULT NULL, PRIMARY KEY (id)
 );
 
-drop table DBName.Clients;
-CREATE TABLE IF NOT EXISTS DBName.Clients (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    lastName VARCHAR(255) NOT NULL,
-    phone VARCHAR(30) NOT NULL,
-    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS Historic (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    sessionId varchar(255) NOT NULL,
+    mensaje text,
+    tipo varchar(255) NOT NULL,
+    registro timestamp NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)
 );
 
-drop table DBName.Conversations;
-CREATE TABLE IF NOT EXISTS DBName.Conversations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    sessionId VARCHAR(255) NULL,
-    lastState VARCHAR(255) NULL,
-    intent VARCHAR(255) NULL,
-    lastQuestion int(11) NULL,
-    startConversation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    endConversation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    agent VARCHAR(255) NULL
-);
-
-drop table DBName.Reports;
-CREATE TABLE IF NOT EXISTS DBName.Reports (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    reportId VARCHAR(255) NOT NULL,
-    agent VARCHAR(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS Reports (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    reportId varchar(255) NOT NULL,
+    agent varchar(255) NOT NULL,
     comment text NOT NULL,
-    priorityAttention boolean NULL,
-    processStatus VARCHAR(255) NOT NULL,
-    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    priorityAttention tinyint(1) DEFAULT NULL,
+    processStatus varchar(255) NOT NULL,
+    updated timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    created timestamp NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)
 );
 
-drop table DBName.Historic;
-CREATE TABLE IF NOT EXISTS DBName.Historic (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    sessionId VARCHAR(255) NOT NULL,
-    mensaje text NULL,
-    tipo VARCHAR(255) NOT NULL,
-    registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS Users (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    sessionId varchar(255) DEFAULT NULL,
+    lastState varchar(255) DEFAULT NULL,
+    intent varchar(255) DEFAULT NULL,
+    lastQuestion int(11) DEFAULT NULL,
+    startConversation timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    endConversation timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    onHold tinyint(1) DEFAULT NULL, PRIMARY KEY (id)
 );
-```  
 
-Diagrama Entidad-Relacion  
-
-![DiagramaER](https://referencias-documentacion-md.s3.us-west-2.amazonaws.com/DiagramaER.jpg)  
+```
