@@ -310,7 +310,7 @@ Es indispensable que no falte ningun campo a pesar de de ir vacio. Para re entre
 ```
 Para que el entrenamiento sea correcto se debe respetar la sintaxis de payload y de las entity dentro de los examples y slots
 
-### /user
+### /agents
 La integración que tiene esta ruta es con la lambda `UserService`. La configuracion de esta lambda solo requiere de las siguientes variables de entorno:
 ```
 cluster_arn_aurora = "ARN del cluster"
@@ -339,7 +339,8 @@ Definicion de creacion de usuario, ```email``` -> requerido, ```password``` -> r
             "RecuperarPsswrd": false,
             "Consultar": false,
             "Nuevo": false,
-            "sessionId": ""
+            "sessionId": "",
+            "sessionUser": ""
         }
     }
 }
