@@ -12,7 +12,7 @@ Esta API es la central, su configuración en el Template SAM ya incluye la activ
 * /start
 * /token
 * /trainerbot
-* /user
+* /agents
 * /{folder}/{item}
 
 ### /clients
